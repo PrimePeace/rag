@@ -1,0 +1,1 @@
+python -c "from app.core.config import get_settings; get_settings.cache_clear(); print(get_settings())"
