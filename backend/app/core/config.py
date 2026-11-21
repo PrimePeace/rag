@@ -14,10 +14,27 @@ class Settings(BaseSettings):
         case_sensitive=False,  # 环境变量名大小写不敏感
     )
 
+    # 腾讯云 COS 配置
     cos_secret_id: str = ""  # 腾讯云 COS SecretId，仅通过环境变量注入
     cos_secret_key: str = ""  # 腾讯云 COS SecretKey，仅通过环境变量注入
     cos_region: str = "ap-chengdu"  # COS 默认地域
     cos_bucket: str = ""  # COS 桶名，仅通过环境变量注入
+
+    # Embedding 模型配置
+    embedding_api_key: str = ""  # Embedding 模型 API Key，仅通过环境变量注入
+    embedding_base_url: str = "https://api.siliconflow.cn/v1/embeddings"  # Embedding 模型 API 端点
+    embedding_model: str = "BAAI/bge-m3"  # Embedding 模型名称
+    # 维度配置 alembic 迁移中 vector(N) 保持一致：改维度需要重建表
+    embedding_dim: int = 1024  # Embedding 模型输出向量维度
+    embedding_batch_size: int = 10  # Embedding 批量处理大小，过大可能导致请求超时
+
+    # 文档上传与切片配置
+    upload_max_size_mb: int = 50  # 单文件上传大小上限，单位 MB
+    chunk_size: int = 600  # 文档切片长度
+    chunk_overlap: int = 60  # 相邻切片重叠长度，避免语义在切分处断开
+
+
+
 
     @property
     def cos_configured(self) -> bool:  # 判断 COS 必要配置是否齐全
